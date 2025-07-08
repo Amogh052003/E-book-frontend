@@ -152,17 +152,17 @@ export default function Home() {
   const [recommended, setRecommended] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/books")
+    fetch("/api/getbooks")
       .then((res) => res.json())
       .then(setBooks)
       .catch(console.error);
 
-    fetch("http://localhost:8000/api/recently-read")
+    fetch("/api/getrecentlyread")
       .then((res) => res.json())
       .then(setRecentBooks)
       .catch(console.error);
 
-    fetch("http://localhost:8000/api/recommend")
+    fetch("/api/getrecommendations")
       .then((res) => res.json())
       .then(setRecommended)
       .catch(console.error);
