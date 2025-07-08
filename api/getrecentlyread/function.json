@@ -6,7 +6,7 @@
       "direction": "in",
       "name": "req",
       "methods": ["get"],
-      "route": "https://wonderful-flower-009a1cb00.2.azurestaticapps.net/api/getrecentlyread"
+      "route": "getrecentlyread"
     },
     {
       "type": "http",
