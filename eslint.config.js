@@ -3,7 +3,7 @@ import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
-
+export const API_BASE = "https://e-book-function-app-era6f7f3dceycpcu.centralindia-01.azurewebsites.net";
 export default defineConfig([
   globalIgnores(['dist']),
   {
