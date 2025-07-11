@@ -11,9 +11,9 @@ export default function Home() {
     const fetchData = async () => {
       try {
         const [booksRes, recentRes, recommendRes] = await Promise.all([
-          fetch("/api/getbooks"),
+          fetch("https://e-book-function-app-era6f7f3dceycpcu.centralindia-01.azurewebsites.net/api/getbooks"),
           fetch("https://e-book-function-app-era6f7f3dceycpcu.centralindia-01.azurewebsites.net/api/getrecentlyread"),
-          fetch("/api/getrecommendations"),
+          fetch("https://e-book-function-app-era6f7f3dceycpcu.centralindia-01.azurewebsites.net/api/getrecommendations"),
         ]);
 
         const booksData = await booksRes.json();
