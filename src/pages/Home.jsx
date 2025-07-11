@@ -6,14 +6,15 @@ export default function Home() {
   const [recentBooks, setRecentBooks] = useState([]);
   const [recommended, setRecommended] = useState([]);
 
-  // Fetch books on mount
+  const API_BASE = "https://e-book-function-app-era6f7f3dceycpcu.centralindia-01.azurewebsites.net/api";
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [booksRes, recentRes, recommendRes] = await Promise.all([
-          fetch("https://e-book-function-app-era6f7f3dceycpcu.centralindia-01.azurewebsites.net/api/getbooks"),
-          fetch("https://e-book-function-app-era6f7f3dceycpcu.centralindia-01.azurewebsites.net/api/getrecentlyread"),
-          fetch("https://e-book-function-app-era6f7f3dceycpcu.centralindia-01.azurewebsites.net/api/getrecommendations"),
+          fetch(`${API_BASE}/list_books`),
+          fetch(`${API_BASE}/getrecentlyread`),
+          fetch(`${API_BASE}/getrecommendations`)
         ]);
 
         const booksData = await booksRes.json();
@@ -31,7 +32,6 @@ export default function Home() {
     fetchData();
   }, []);
 
-  // Reusable section renderer
   const renderSection = (title, data) => (
     <section className="mb-10">
       <h2 className="text-2xl font-bold mb-4">{title}</h2>
@@ -49,7 +49,7 @@ export default function Home() {
 
   return (
     <div className="p-10 bg-neutral-950 text-white min-h-screen">
-      {/* Hero */}
+      {/* Hero Section */}
       <div className="max-w-4xl mx-auto text-center">
         <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
           Unlock a Universe of Knowledge
