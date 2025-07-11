@@ -12,7 +12,7 @@ export default function Home() {
       try {
         const [booksRes, recentRes, recommendRes] = await Promise.all([
           fetch("/api/getbooks"),
-          fetch("/api/getrecentlyread"),
+          fetch("https://e-book-function-app-era6f7f3dceycpcu.centralindia-01.azurewebsites.net/api/getrecentlyread"),
           fetch("/api/getrecommendations"),
         ]);
 
