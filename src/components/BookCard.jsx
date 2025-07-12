@@ -1,8 +1,8 @@
 export default function BookCard({
   title,
   author,
-  price,
-  cover,
+  price = 0,
+  coverImage,
   onClick,
   onAddToCart,
 }) {
@@ -12,7 +12,7 @@ export default function BookCard({
       onClick={onClick}
     >
       <img
-        src={cover}
+        src={coverImage}
         alt={title}
         className="w-full h-48 object-cover"
       />
@@ -22,7 +22,7 @@ export default function BookCard({
         <p className="text-base font-semibold text-blue-600 mt-2">₹{price}</p>
         <button
           onClick={(e) => {
-            e.stopPropagation(); // Prevent triggering parent onClick
+            e.stopPropagation();
             onAddToCart && onAddToCart();
           }}
           className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white text-sm py-2 px-4 rounded transition"
