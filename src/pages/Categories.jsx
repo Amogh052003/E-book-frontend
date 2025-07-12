@@ -10,7 +10,7 @@ export default function Categories() {
   const { addToCart } = useCart();
 
   // Replace this with your deployed Azure Function URL
-  const API_URL = "https://e-book-function-app-era6f7f3dceycpcu.centralindia-01.azurewebsites.net/api/getbooks";
+  const API_URL = "https://e-book-function-app-era6f7f3dceycpcu.centralindia-01.azurewebsites.net/api/list_books";
 
   // Fetch all books and derive categories
   useEffect(() => {
