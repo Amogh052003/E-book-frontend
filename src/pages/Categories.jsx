@@ -3,31 +3,35 @@ import BookCard from "../components/BookCard";
 import { useCart } from "../context/CartContext";
 
 export default function Categories() {
-  const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("All");
   const [books, setBooks] = useState([]);
+  const [filteredBooks, setFilteredBooks] = useState([]);
+  const [categories, setCategories] = useState(["All"]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const { addToCart } = useCart();
 
-  // Fetch all categories
+  // Replace this with your deployed Azure Function URL
+  const API_URL = "https://e-book-function-app-era6f7f3dceycpcu.centralindia-01.azurewebsites.net/api/getbooks";
+
+  // Fetch all books and derive categories
   useEffect(() => {
-    fetch("http://localhost:8000/api/categories/")
+    fetch(API_URL)
       .then(res => res.json())
-      .then(data => setCategories(["All", ...data]))
-      .catch(err => console.error("Failed to fetch categories", err));
+      .then(data => {
+        setBooks(data);
+        const uniqueCategories = [...new Set(data.map(book => book.category || "Uncategorized"))];
+        setCategories(["All", ...uniqueCategories]);
+      })
+      .catch(err => console.error("Failed to fetch books", err));
   }, []);
 
-  // Fetch books by selected category
+  // Filter books by selected category
   useEffect(() => {
-    const url =
-      selectedCategory === "All"
-        ? "http://localhost:8000/api/books"
-        : `http://localhost:8000/api/books?category=${encodeURIComponent(selectedCategory)}`;
-
-    fetch(url)
-      .then(res => res.json())
-      .then(data => setBooks(data))
-      .catch(err => console.error("Failed to fetch books", err));
-  }, [selectedCategory]);
+    if (selectedCategory === "All") {
+      setFilteredBooks(books);
+    } else {
+      setFilteredBooks(books.filter(book => book.category === selectedCategory));
+    }
+  }, [selectedCategory, books]);
 
   return (
     <div className="p-8 text-white">
@@ -50,9 +54,9 @@ export default function Categories() {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-        {books.map((book) => (
+        {filteredBooks.map((book, index) => (
           <BookCard
-            key={book.id}
+            key={index}
             {...book}
             onAddToCart={() => addToCart(book)}
           />
