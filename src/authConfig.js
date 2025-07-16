@@ -1,13 +1,12 @@
-// src/authConfig.js
 export const msalConfig = {
   auth: {
-    clientId: "YOUR_CLIENT_ID",
-    authority: "https://YOUR_TENANT_NAME.b2clogin.com/YOUR_TENANT_NAME.onmicrosoft.com/B2C_1_signupsignin",
-    knownAuthorities: ["YOUR_TENANT_NAME.b2clogin.com"],
+    clientId: "231a6d14-71c8-4764-8840-45fc43ac174f", // Get this from your App Registration
+    authority: "https://plivhan321gogmail.b2clogin.com/plivhan321gogmail.onmicrosoft.com/B2C_1_signupsignin",
+    knownAuthorities: ["plivhan321gogmail.b2clogin.com"],
     redirectUri: "/",
   },
-};
-
-export const loginRequest = {
-  scopes: ["openid", "profile"],
+  cache: {
+    cacheLocation: "localStorage",
+    storeAuthStateInCookie: false,
+  },
 };
