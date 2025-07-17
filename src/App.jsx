@@ -19,7 +19,7 @@ function App() {
         if (clientPrincipal) {
           const { userId, userDetails: email } = clientPrincipal;
 
-          await fetch('https://e-book-function-app-era6f7f3dceycpcu.centralindia-01.azurewebsites.net/api/register_user', {
+          await fetch('api/register_user', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ userId, email }),
