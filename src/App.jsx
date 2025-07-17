@@ -22,7 +22,7 @@ function App() {
           await fetch('https://e-book-function-app-era6f7f3dceycpcu.centralindia-01.azurewebsites.net/api/register_user', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userId, email }),
+            body: JSON.stringify({ userId, email })  // <== missing closing }
           });
         }
       } catch (err) {
