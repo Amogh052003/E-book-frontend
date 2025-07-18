@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
 
+import { CartProvider } from "./context/CartContext";
 import { PublicClientApplication } from "@azure/msal-browser";
 import { MsalProvider } from "@azure/msal-react";
 import { msalConfig } from "./authConfig";
@@ -10,7 +11,11 @@ import { msalConfig } from "./authConfig";
 const msalInstance = new PublicClientApplication(msalConfig);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <MsalProvider instance={msalInstance}>
-    <App />
-  </MsalProvider>
+  <React.StrictMode>
+    <MsalProvider instance={msalInstance}>
+      <CartProvider>
+        <App />
+      </CartProvider>
+    </MsalProvider>
+  </React.StrictMode>
 );
