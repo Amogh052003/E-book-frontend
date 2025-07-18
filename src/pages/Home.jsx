@@ -1,22 +1,12 @@
 import { useEffect, useState } from "react";
 import BookCard from "../components/BookCard";
-// import { useMsal } from "@azure/msal-react";
-
-// export default function UserInfo() {
-//   const { accounts } = useMsal();
-//   const user = accounts[0];
-
-//   return user ? (
-//     <div className="text-sm text-white">
-//       Signed in as: <strong>{user.username}</strong>
-//     </div>
-//   ) : null;
-// }
+import { useCart } from "../context/CartContext";
 
 export default function Home() {
   const [books, setBooks] = useState([]);
   const [recentBooks, setRecentBooks] = useState([]);
   const [recommended, setRecommended] = useState([]);
+  const { addToCart } = useCart();
 
   const API_BASE = "https://e-book-function-app-era6f7f3dceycpcu.centralindia-01.azurewebsites.net/api";
 
@@ -53,6 +43,7 @@ export default function Home() {
             key={index}
             {...book}
             onClick={() => console.log("View details for:", book.title)}
+            onAddToCart={() => addToCart(book)}
           />
         ))}
       </div>
