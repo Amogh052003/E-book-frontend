@@ -1,56 +1,65 @@
-import { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import React, { useEffect, useState } from "react";
+import { useMsal } from "@azure/msal-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { BookOpen } from "lucide-react";
 
-export default function MyBooks() {
-  const { user } = useAuth();
-  const [books, setBooks] = useState([]);
+const MyBooks = () => {
+  const { accounts } = useMsal();
+  const userId = accounts[0]?.homeAccountId;
+
+  const [myBooks, setMyBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!user?.userId) return;
-
     const fetchBooks = async () => {
       try {
-        const res = await fetch(`/api/getmybooks?userId=${user.userId}`);
+        const res = await fetch(`/api/getmybooks?userId=${userId}`);
+        if (!res.ok) {
+          throw new Error("Failed to fetch your books");
+        }
         const data = await res.json();
-        setBooks(data);
+        setMyBooks(data);
       } catch (err) {
-        console.error("Failed to load books", err);
+        setError(err.message || "Something went wrong");
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchBooks();
-  }, [user]);
+    if (userId) {
+      fetchBooks();
+    }
+  }, [userId]);
+
+  if (loading) return <div className="text-center p-4">Loading your books...</div>;
+  if (error) return <div className="text-center text-red-500 p-4">{error}</div>;
+  if (myBooks.length === 0) return <div className="text-center p-4">No books found in your library.</div>;
 
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold text-white mb-6">My Books</h1>
-      {books.length === 0 ? (
-        <p className="text-gray-400">You haven’t purchased any books yet.</p>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {books.map((book) => (
-            <div
-              key={book.id}
-              className="bg-gray-900 rounded shadow p-4 flex flex-col items-center"
-            >
-              <img
-                src={book.cover || "/default-cover.jpg"}
-                alt={book.title}
-                className="w-32 h-48 object-cover mb-4"
-              />
-              <h2 className="text-lg font-semibold text-white">{book.title}</h2>
-              <p className="text-gray-400">{book.author}</p>
-              <a
-                href={book.downloadUrl}
-                download
-                className="mt-4 bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
-              >
-                Download
-              </a>
-            </div>
-          ))}
-        </div>
-      )}
+    <div className="grid gap-4 p-4 md:grid-cols-3 sm:grid-cols-2">
+      {myBooks.map((book) => (
+        <Card key={book.id} className="rounded-2xl shadow-md">
+          <img
+            src={book.coverImage}
+            alt={book.title}
+            className="rounded-t-2xl h-60 w-full object-cover"
+          />
+          <CardContent className="p-4 flex flex-col gap-2">
+            <h3 className="text-lg font-semibold">{book.title}</h3>
+            <p className="text-sm text-gray-600">{book.author}</p>
+            <a href={book.downloadUrl} target="_blank" rel="noopener noreferrer">
+              <Button className="w-full mt-2 flex gap-2">
+                <BookOpen size={16} />
+                Read Book
+              </Button>
+            </a>
+          </CardContent>
+        </Card>
+      ))}
     </div>
   );
-}
+};
+
+export default MyBooks;
