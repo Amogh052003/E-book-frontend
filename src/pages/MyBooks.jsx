@@ -10,7 +10,7 @@ export default function MyBooks() {
 
     const fetchBooks = async () => {
       try {
-        const res = await fetch(`/api/get_mybooks?userId=${user.userId}`);
+        const res = await fetch(`/api/getmybooks?userId=${user.userId}`);
         const data = await res.json();
         setBooks(data);
       } catch (error) {
